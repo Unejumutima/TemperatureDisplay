@@ -34,7 +34,7 @@ Arduino IDE
 Python 3
 Paho MQTT Library
 Serial Library (pyserial)
-MQTT Broker (VPS / Public broker)
+MQTT Broker (VPS)
 HTML + JavaScript (MQTT.js)
 📡 Communication Details
 🔌 Serial Communication
@@ -42,7 +42,7 @@ Between: Arduino Uno ↔ PC
 Baud Rate: 9600
 Purpose: Transfer temperature readings from Arduino to PC
 🌐 MQTT Communication
-Broker: VPS / broker.hivemq.com
+Broker: VPS / broker.benax.rw
 Topic: iot/temperature
 Protocol: MQTT over TCP / WebSockets (for dashboard)
 🔧 Features
@@ -66,9 +66,9 @@ TemperatureDisplay/
 │   │   └── index.html
 │   │
 │   ├── screenshots/
-│   │   ├── page.png
-│   │   ├── page(2).png
-│   │   ├── serial monitor.png
+│       ├── page.png
+│       ├── page(2).png
+│       ├── serial monitor.png
 │
 ├── README.md
 🚀 How It Works
