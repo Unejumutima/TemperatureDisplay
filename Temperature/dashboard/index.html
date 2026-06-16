@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Temperature Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            font-family: 'Inter', sans-serif;
+            color: #fff;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 24px;
+            padding: 56px 64px;
+            text-align: center;
+            box-shadow: 0 24px 64px rgba(0, 0, 0, 0.4);
+            min-width: 340px;
+        }
+
+        .label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.5);
+            margin-bottom: 12px;
+        }
+
+        .title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 36px;
+        }
+
+        .thermometer-icon {
+            font-size: 2.4rem;
+            margin-bottom: 8px;
+            display: block;
+            animation: pulse 2.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.08); opacity: 0.85; }
+        }
+
+        #temp {
+            font-size: 5rem;
+            font-weight: 700;
+            letter-spacing: -2px;
+            background: linear-gradient(135deg, #a78bfa, #60a5fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1;
+            margin-bottom: 8px;
+            transition: all 0.4s ease;
+        }
+
+        .status-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #a78bfa;
+            margin-right: 6px;
+            animation: blink 1.4s ease-in-out infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.2; }
+        }
+
+        .status {
+            font-size: 0.78rem;
+            color: rgba(255, 255, 255, 0.4);
+            margin-top: 28px;
+            letter-spacing: 0.06em;
+        }
+    </style>
+</head>
+
+<body>
+  <div class="card">
+    <span class="label">IoT Sensor</span>
+    <h2 class="title">Live Temperature Monitor</h2>
+    <span class="thermometer-icon">🌡️</span>
+    <h1 id="temp">Waiting...</h1>
+    <p class="status"><span class="status-dot"></span>Listening for data</p>
+  </div>
+
+  <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+
+  <script>
+    const client = mqtt.connect("ws://157.173.101.159:9001");
+
+    client.on("connect", function () {
+        client.subscribe("iot/temperature");
+    });
+
+    client.on("message", function (topic, message) {
+        document.getElementById("temp").innerHTML =
+            message.toString() + " °C";
+    });
+  </script>
+</body>
+</html>
